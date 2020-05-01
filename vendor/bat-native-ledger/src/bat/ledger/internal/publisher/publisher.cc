@@ -143,9 +143,7 @@ void Publisher::SaveVisit(
       publisher_key,
       [this, publisher_key, on_server_info](bool publisher_exists) {
         if (publisher_exists) {
-          ledger_->publisher()->GetServerPublisherInfo(
-              publisher_key,
-              on_server_info);
+          GetServerPublisherInfo(publisher_key, on_server_info);
         } else {
           on_server_info(nullptr);
         }
@@ -267,8 +265,7 @@ void Publisher::SaveVisitInternal(
     return;
   }
 
-  bool is_verified = ledger_->publisher()->IsConnectedOrVerified(
-      status);
+  bool is_verified = IsConnectedOrVerified(status);
 
   bool new_visit = false;
   if (!publisher_info) {
@@ -793,6 +790,132 @@ void Publisher::OnServerPublisherInfoLoaded(
   }
 
   callback(std::move(server_info));
+}
+
+void Publisher::UpdateMediaDuration(
+    const uint64_t window_id,
+    const std::string& media_type,
+    const std::string& url,
+    const std::string& publisher_key,
+    const std::string& publisher_name,
+    const std::string& favicon_url,
+    uint64_t duration) {
+  BLOG(1, "Media duration: " << duration);
+
+  ledger::VisitData visit_data;
+  visit_data.name = publisher_name;
+  visit_data.url = url;
+  visit_data.provider = media_type;
+  visit_data.favicon_url = favicon_url;
+
+  SaveVideoVisit(
+      publisher_key,
+      visit_data,
+      duration,
+      window_id,
+      [](ledger::Result, ledger::PublisherInfoPtr) {});
+}
+
+void Publisher::GetPublisherPanelInfo(
+    const uint64_t window_id,
+    const std::string& media_type,
+    const std::string& publisher_key) {
+  auto filter = CreateActivityFilter(
+      publisher_key,
+      ledger::ExcludeFilter::FILTER_ALL,
+      false,
+      ledger_->state()->GetReconcileStamp(),
+      true,
+      false);
+
+  ledger_->database()->GetPanelPublisherInfo(std::move(filter),
+      std::bind(&Publisher::OnGetPanelPublisherInfo,
+                this,
+                _1,
+                _2,
+                window_id,
+                media_type,
+                publisher_key));
+}
+
+void Publisher::OnGetPanelPublisherInfo(
+    const ledger::Result result,
+    ledger::PublisherInfoPtr info,
+    uint64_t window_id,
+    const std::string& media_type,
+    const std::string& publisher_key) {
+  if (result != ledger::Result::LEDGER_OK) {
+    BLOG(0, "Failed to retrieve panel publisher info for publisher key "
+        << publisher_key);
+    return;
+  }
+
+  ledger_->ledger_client()->OnPanelPublisherInfo(
+        result,
+        std::move(info),
+        window_id);
+}
+
+void Publisher::SavePublisherVisit(
+    const uint64_t window_id,
+    const std::string& media_type,
+    const std::string& url,
+    const std::string& publisher_key,
+    const std::string& publisher_name,
+    const std::string& favicon_url) {
+  SavePublisherInfo(
+      window_id,
+      media_type,
+      url,
+      publisher_key,
+      publisher_name,
+      favicon_url);
+}
+
+void Publisher::SavePublisherInfo(
+    const uint64_t window_id,
+    const std::string& media_type,
+    const std::string& url,
+    const std::string& publisher_key,
+    const std::string& publisher_name,
+    const std::string& favicon_url) {
+  if (publisher_key.empty()) {
+    BLOG(0, "Publisher key is missing for url " << url);
+    return;
+  }
+
+  ledger::VisitData visit_data;
+  visit_data.provider = media_type;
+  visit_data.name = publisher_name;
+  visit_data.url = url;
+  if (!favicon_url.empty()) {
+    visit_data.favicon_url = favicon_url;
+  }
+
+  SaveVideoVisit(
+      publisher_key,
+      visit_data,
+      0,
+      window_id,
+      [](const ledger::Result, ledger::PublisherInfoPtr) {});
+}
+
+void Publisher::OnMediaActivityError(
+    const uint64_t window_id,
+    const std::string& url) {
+  const std::string tld_url = YOUTUBE_TLD;
+  const std::string media_type = YOUTUBE_MEDIA_TYPE;
+
+  ledger::VisitData visit_data;
+  visit_data.domain = tld_url;
+  visit_data.url = "https://" + tld_url;
+  visit_data.path = "/";
+  visit_data.name = media_type;
+
+  GetPublisherActivityFromUrl(
+      window_id,
+      ledger::VisitData::New(visit_data),
+      std::string());
 }
 
 }  // namespace braveledger_publisher
