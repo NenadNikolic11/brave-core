@@ -336,7 +336,6 @@ void BraveAddLocalizedStrings(content::WebUIDataSource* html_source,
   BraveAddResources(html_source, profile);
   BraveAddAboutStrings(html_source, profile);
   BravePrivacyHandler::AddLoadTimeData(html_source, profile);
-  BraveSocialBlockingHandler::AddLoadTimeData(html_source, profile);
 }
 
 }  // namespace settings

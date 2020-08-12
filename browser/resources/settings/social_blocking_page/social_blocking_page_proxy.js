@@ -13,24 +13,17 @@ cr.define('settings', function() {
     /**
      * @param {boolean} enabled (true/false).
      */
-    setGoogleLoginEnabled(value) {}
-    /**
-     * @return {boolean}
-     */
-    wasGoogleLoginEnabledAtStartup() {}
+    setSignInEnabledAtNextStartup(value) {}
   }
 
   /**
    * @implements {settings.SocialBlockingPageProxy}
    */
   /* #export */ class SocialBlockingPageProxyImpl {
-    setGoogleLoginEnabled(value) {
-      chrome.send('setGoogleLoginEnabled', [value]);
+    setSignInEnabledAtNextStartup(value) {
+      chrome.settingsPrivate.setPref("signin.allowed_on_next_startup", value);
     }
 
-    wasGoogleLoginEnabledAtStartup() {
-      return loadTimeData.getBoolean('googleLoginEnabledAtStartup');
-    }
   }
 
   cr.addSingletonGetter(SocialBlockingPageProxyImpl);

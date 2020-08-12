@@ -15,9 +15,9 @@
         pref="{{prefs.brave.google_login_default}}"
         label="$i18n{googleLoginControlLabel}"
         learn-more-url="$i18n{googleLoginLearnMoreURL}"
-        on-settings-boolean-control-change="setGoogleLoginEnabled_"
         >
         <template is="dom-if" if="[[shouldShowRestart_(
+          prefs.signin.allowed_on_next_startup.value,
           prefs.brave.google_login_default.value)]]">
         <cr-button on-click="restartBrowser_" slot="more-actions">
           $i18n{restart}

@@ -21,20 +21,17 @@ Polymer({
 
   /** @override */
   ready: function() {
-    this.setGoogleLoginEnabled_ = this.setGoogleLoginEnabled_.bind(this)
+    this.shouldShowRestart_ = this.shouldShowRestart_.bind(this)
     this.restartBrowser_ = this.restartBrowser_.bind(this)
   },
 
-  setGoogleLoginEnabled_: function() {
-    this.browserProxy_.setGoogleLoginEnabled(this.$.googleLoginControlType.checked)
-  },
-
-  shouldShowRestart_: function(enabled) {
-    return enabled != this.browserProxy_.wasGoogleLoginEnabledAtStartup();
+  shouldShowRestart_: function(valueAtStartup, value) {
+    return valueAtStartup != value;
   },
 
   restartBrowser_: function(e) {
     e.stopPropagation();
+    this.browserProxy_.setSignInEnabledAtNextStartup(this.$.googleLoginControlType.checked)
     window.open("chrome://restart", "_self");
   },
 });
