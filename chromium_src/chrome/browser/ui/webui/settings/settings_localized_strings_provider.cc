@@ -11,7 +11,6 @@
 #include "brave/browser/ui/webui/settings/brave_privacy_handler.h"
 #include "brave/browser/version_info.h"
 #include "chrome/browser/ui/webui/webui_util.h"
-#include "brave/browser/ui/webui/settings/brave_social_blocking_handler.h"
 
 namespace settings {
 void BraveAddLocalizedStrings(content::WebUIDataSource*, Profile*);

@@ -22,8 +22,8 @@ class BraveMutableProfileOAuth2TokenServiceDelegate
   ~BraveMutableProfileOAuth2TokenServiceDelegate() override;
 
   void LoadCredentials(const CoreAccountId& primary_account_id) override;
-
-  DISALLOW_COPY_AND_ASSIGN(BraveMutableProfileOAuth2TokenServiceDelegate);
+ private:
+  AccountTrackerService* account_tracker_service_;
 };
 
 #endif  // BRAVE_COMPONENTS_SIGNIN_INTERNAL_IDENTITY_MANAGER_BRAVE_MUTABLE_PROFILE_OAUTH2_TOKEN_SERVICE_DELEGATE_H_

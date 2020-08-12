@@ -22,14 +22,16 @@ BraveMutableProfileOAuth2TokenServiceDelegate::
                                                token_web_data,
                                                account_consistency,
                                                revoke_all_tokens_on_load,
-                                               fix_request_error_callback) {}
+                                               fix_request_error_callback),
+      account_tracker_service_(account_tracker_service) {}
 
 BraveMutableProfileOAuth2TokenServiceDelegate::
     ~BraveMutableProfileOAuth2TokenServiceDelegate() {}
 
 void BraveMutableProfileOAuth2TokenServiceDelegate::LoadCredentials(
     const CoreAccountId& primary_account_id) {
-  if (primary_account_id.empty())
+  account_tracker_service_->LoadFromPrefs();
+  if (!account_tracker_service_->GetAccounts().size())
     return;
   MutableProfileOAuth2TokenServiceDelegate::LoadCredentials(primary_account_id);
 }
