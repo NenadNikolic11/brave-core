@@ -17,13 +17,6 @@ ledger::Result ParseClaimCreds(
     const ledger::UrlResponse& response,
     std::string* claim_id);
 
-ledger::Result CheckFetchPromotions(const ledger::UrlResponse& response);
-
-ledger::Result ParseFetchPromotions(
-    const ledger::UrlResponse& response,
-    ledger::PromotionList* list,
-    std::vector<std::string>* corrupted_promotions);
-
 ledger::Result CheckCorruptedPromotions(const ledger::UrlResponse& response);
 
 ledger::Result CheckRedeemTokens(const ledger::UrlResponse& response);

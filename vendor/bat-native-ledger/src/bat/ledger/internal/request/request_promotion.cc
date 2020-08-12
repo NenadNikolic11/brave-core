@@ -12,21 +12,6 @@
 
 namespace braveledger_request_util {
 
-std::string GetFetchPromotionUrl(
-    const std::string& payment_id,
-    const std::string& platform) {
-  const std::string& arguments = base::StringPrintf(
-      "migrate=true&paymentId=%s&platform=%s",
-      payment_id.c_str(),
-      platform.c_str());
-
-  const std::string& path = base::StringPrintf(
-      "/promotions?%s",
-      arguments.c_str());
-
-  return BuildUrl(path, PREFIX_V1, ServerTypes::kPromotion);
-}
-
 std::string ClaimCredsUrl(const std::string& promotion_id) {
     const std::string& path = base::StringPrintf(
       "/promotions/%s",

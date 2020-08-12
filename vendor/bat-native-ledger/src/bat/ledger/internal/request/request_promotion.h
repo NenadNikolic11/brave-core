@@ -11,10 +11,6 @@
 
 namespace braveledger_request_util {
 
-std::string GetFetchPromotionUrl(
-    const std::string& payment_id,
-    const std::string& platform);
-
 std::string ClaimCredsUrl(const std::string& promotion_id);
 
 std::string FetchSignedCredsUrl(
