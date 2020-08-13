@@ -10,7 +10,6 @@
 
 #include "bat/ads/ad_notification_info.h"
 #include "bat/ads/confirmation_type.h"
-#include "bat/ads/internal/reports/event_type_load_info.h"
 #include "bat/ads/mojom.h"
 
 namespace ads {
@@ -23,13 +22,6 @@ class Reports {
       AdsImpl* ads);
 
   ~Reports();
-
-  std::string GenerateAdNotificationEventReport(
-      const AdNotificationInfo& info,
-      const AdNotificationEventType event_type) const;
-
-  std::string GenerateLoadEventReport(
-      const LoadInfo& info) const;
 
   std::string GenerateSettingsEventReport() const;
 

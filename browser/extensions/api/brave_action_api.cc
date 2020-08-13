@@ -57,8 +57,8 @@ class BraveActionAPIFactory : public KeyedServiceFactory {
     return base::WrapUnique(new extensions::BraveActionAPI());
   }
   bool IsOffTheRecord(void* context) const final {
-    return static_cast<Browser*>(context)
-        ->profile()->IsOffTheRecord();
+    Profile* profile = static_cast<Browser*>(context)->profile();
+    return profile->IsOffTheRecord();
   }
   void* GetContextToUse(void* context) const final {
     return context;
