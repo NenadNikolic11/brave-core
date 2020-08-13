@@ -1,0 +1,12 @@
+diff --git a/components/signin/internal/identity_manager/mutable_profile_oauth2_token_service_delegate.cc b/components/signin/internal/identity_manager/mutable_profile_oauth2_token_service_delegate.cc
+index 8e3a33f8c54a8d327dffb39be3b8474a4b909068..21b7cdee41f52fa32231f93c5441895116745667 100644
+--- a/components/signin/internal/identity_manager/mutable_profile_oauth2_token_service_delegate.cc
++++ b/components/signin/internal/identity_manager/mutable_profile_oauth2_token_service_delegate.cc
+@@ -400,6 +400,7 @@ void MutableProfileOAuth2TokenServiceDelegate::InvalidateTokenForMultilogin(
+ 
+ void MutableProfileOAuth2TokenServiceDelegate::LoadCredentials(
+     const CoreAccountId& primary_account_id) {
++  BRAVE_BLOCK_LOAD_CREDENTIALS
+   if (load_credentials_state() ==
+       signin::LoadCredentialsState::LOAD_CREDENTIALS_IN_PROGRESS) {
+     VLOG(1) << "Load credentials operation already in progress";

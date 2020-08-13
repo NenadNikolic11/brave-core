@@ -7,30 +7,32 @@
 
 namespace syncer {
 
-SyncSessionDurationsMetricsRecorder::
-    SyncSessionDurationsMetricsRecorder(
-        SyncService* sync_service,
-        signin::IdentityManager* identity_manager) : sync_service_(sync_service),
-                                                     identity_manager_(identity_manager){}
+SyncSessionDurationsMetricsRecorder::SyncSessionDurationsMetricsRecorder(
+    SyncService* sync_service,
+    signin::IdentityManager* identity_manager)
+    : sync_service_(sync_service), identity_manager_(identity_manager) {}
 
-SyncSessionDurationsMetricsRecorder::
-    ~SyncSessionDurationsMetricsRecorder() {}
+SyncSessionDurationsMetricsRecorder::~SyncSessionDurationsMetricsRecorder() {}
 
-void SyncSessionDurationsMetricsRecorder::OnSessionStarted(base::TimeTicks session_start) {}
-void SyncSessionDurationsMetricsRecorder::OnSessionEnded(base::TimeDelta session_length) {}
+void SyncSessionDurationsMetricsRecorder::OnSessionStarted(
+    base::TimeTicks session_start) {}
+void SyncSessionDurationsMetricsRecorder::OnSessionEnded(
+    base::TimeDelta session_length) {}
 
-void SyncSessionDurationsMetricsRecorder::OnStateChanged(syncer::SyncService* sync) {}
+void SyncSessionDurationsMetricsRecorder::OnStateChanged(
+    syncer::SyncService* sync) {}
 void SyncSessionDurationsMetricsRecorder::OnRefreshTokenUpdatedForAccount(
-      const CoreAccountInfo& account_info) {}
+    const CoreAccountInfo& account_info) {}
 void SyncSessionDurationsMetricsRecorder::OnRefreshTokenRemovedForAccount(
-      const CoreAccountId& account_id) {}
+    const CoreAccountId& account_id) {}
 void SyncSessionDurationsMetricsRecorder::OnRefreshTokensLoaded() {}
-void SyncSessionDurationsMetricsRecorder::OnErrorStateOfRefreshTokenUpdatedForAccount(
-      const CoreAccountInfo& account_info,
-      const GoogleServiceAuthError& error) {}
+void SyncSessionDurationsMetricsRecorder::
+    OnErrorStateOfRefreshTokenUpdatedForAccount(
+        const CoreAccountInfo& account_info,
+        const GoogleServiceAuthError& error) {}
 void SyncSessionDurationsMetricsRecorder::OnAccountsInCookieUpdated(
-      const signin::AccountsInCookieJarInfo& accounts_in_cookie_jar_info,
-      const GoogleServiceAuthError& error) {}
+    const signin::AccountsInCookieJarInfo& accounts_in_cookie_jar_info,
+    const GoogleServiceAuthError& error) {}
 }  // namespace syncer
 
 #include "../../../../../components/sync/driver/sync_session_durations_metrics_recorder.h"
